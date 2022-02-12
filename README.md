@@ -12,11 +12,3 @@ Download this repo.  Then run the `run_docker.sh` script to call docker-compose:
 ./run_docker.sh
 ```
 
-## Push new container image
-
-```bash
-echo $GITHUB_VETUP_PKG_TOKEN | docker login ghcr.io -u ${GITHUB_USER} --password-stdin
-```
-
-
-

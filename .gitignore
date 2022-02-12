@@ -1,0 +1,24 @@
+# virtual environment
+/venv/
+
+# local scratchpad
+/scratch/
+
+# data
+/data/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+.DS_Store
+
+# a filename I use for random data dumps
+dump
+
+
+#.env
