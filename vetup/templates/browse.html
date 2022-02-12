@@ -1,0 +1,88 @@
+{% extends "/base_layout.html" %}
+
+{% block head %}
+<style>
+	.just-padding {
+	    padding: 15px;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+{% include '/search_bar.html' %}
+	<h4>{{ title }}</h4>
+	{{ search }}
+
+	<nav aria-label="Page navigation just-padding">
+	  <ul class="pagination">
+	    <li class="page-item disabled"><span class="page-link">Showing results {{ pagination.results_from }}-{{ pagination.results_to }} of {{ pagination.results_total }}</span></li>
+	    <li class="page-item {{ 'disabled' if pagination.current_page == 0 }}">
+			<a class="page-link" href="{{ pagination.href_first }}" {{ 'tabindex="-1" aria-disabled="true"' if pagination.current_page == 0 }} >First</a>
+		</li>
+	    <li class="page-item {{ 'disabled' if pagination.current_page == 0 }}">
+			<a class="page-link" href="{{ pagination.href_prev }}"  {{ 'tabindex="-1" aria-disabled="true"' if pagination.current_page == 0 }} >Prev</a>
+		</li>
+	    <li class="page-item {{ 'disabled' if pagination.current_page == pagination.max_page }}">
+			<a class="page-link" href="{{ pagination.href_next }}" {{ 'tabindex="-1" aria-disabled="true"' if pagination.current_page == pagination.max_page }} >Next</a></li>
+	    <li class="page-item {{ 'disabled' if pagination.current_page == pagination.max_page }}">
+			<a class="page-link" href="{{ pagination.href_last }}" {{ 'tabindex="-1" aria-disabled="true"' if pagination.current_page == pagination.max_page }} >Last</a>
+		</li>
+	  </ul>
+	</nav>
+
+	<ul class="list-group" id="search-results-list">
+	    {% for result in results.hits.hits %}
+
+	    <li class="list-group-item">
+	        <p><a href="/vetup/detail/{{ result.source.path }}/{{ result.source.name }}">
+	            {{ result.source.service }} | {{ result.source.board }} | {{ result.source.time_period }} | {{ result.source.name }} 
+			</a></p>
+			<div class="d-flex justify-content-between small">
+				<a href="/raw_data/{{ result.source.path }}/{{ result.source.raw_data_filename }}" class="text-secondary">
+					<i class="fas fa-file-download"></i> Original file ({{ result.source.raw_data_filename }})
+		        </a>
+				<span>
+					{% if result.source.approved == 'A' %}
+						<span class="text-secondary">Auto-classification:</a>
+						<span class="badge badge-success">Approved</span>
+					{% elif result.source.approved == 'D' %}
+						<span class="text-secondary">Auto-classification:</a>
+						<span class="badge badge-secondary">Denied</span>
+					{% endif %}
+				</span>
+			</div>
+			{% if result.highlight is defined %}
+				<p>
+		        {% for highlight in result.highlight.text %}
+		            {{ highlight|safe }}...
+		        {% endfor %}
+				</p>
+			{% elif result.source.summary is defined %}
+				<p>
+					{{ result.source.summary|truncate(500) }}
+				</p>
+			{% endif %}
+	    </li>
+	    {% endfor %}
+	</ul>
+
+	<nav aria-label="Page navigation just-padding">
+	  <ul class="pagination">
+	    <li class="page-item disabled"><span class="page-link">Showing results {{ pagination.results_from }}-{{ pagination.results_to }} of {{ pagination.results_total }}</span></li>
+	    <li class="page-item {{ 'disabled' if pagination.current_page == 0 }}">
+			<a class="page-link" href="{{ pagination.href_first }}" {{ 'tabindex="-1" aria-disabled="true"' if pagination.current_page == 0 }} >First</a>
+		</li>
+	    <li class="page-item {{ 'disabled' if pagination.current_page == 0 }}">
+			<a class="page-link" href="{{ pagination.href_prev }}"  {{ 'tabindex="-1" aria-disabled="true"' if pagination.current_page == 0 }} >Prev</a>
+		</li>
+	    <li class="page-item {{ 'disabled' if pagination.current_page == pagination.max_page }}">
+			<a class="page-link" href="{{ pagination.href_next }}" {{ 'tabindex="-1" aria-disabled="true"' if pagination.current_page == pagination.max_page }} >Next</a></li>
+	    <li class="page-item {{ 'disabled' if pagination.current_page == pagination.max_page }}">
+			<a class="page-link" href="{{ pagination.href_last }}" {{ 'tabindex="-1" aria-disabled="true"' if pagination.current_page == pagination.max_page }} >Last</a>
+		</li>
+	  </ul>
+	</nav>
+
+</div>
+{% endblock %}

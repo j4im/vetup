@@ -1,0 +1,82 @@
+{% extends "/base_layout.html" %}
+
+{% block head %}
+<style>
+	.just-padding {
+	    padding: 15px;
+	}
+
+
+	.list-group.list-group-root > .list-group > .list-group-item {
+	    padding-left: 30px;
+	}
+
+	.list-group.list-group-root > .list-group > .list-group > .list-group-item {
+	    padding-left: 45px;
+	}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container just-padding">
+{% include '/search_bar.html' %}
+
+	<div class="jumbotron jumbotron-fluid">
+	  <div class="container">
+	    <h1 class="display-4">Veteran Discharge Upgrade Database</h1>
+	    <p class="lead">Upgrade.Vet is a searchable database of decisions from the U.S. Department of Defense (DoD) Boards for the Corrections of Military/Naval Records (BCMR) and the Discharge Review Boards (DRB).  The files on this site were published by the DoD at the <a href="https://boards.law.af.mil">Boards of Review Reading Rooms</a>.</p>
+		<p><i>Note: these files comprise the entire database of the DoD Reading Rooms as published in late 2015.  As of this writing (January 2020), the DoD Reading Rooms have removed access to this information.  The decisions are provided here as a convenience for veterans and their representatives who are seeking to understand the decisional history of the DoD BCMR and DRB boards.  With few exceptions, each file has been converted from its original format into HTML to enable search and preview.  Links to the  original documents are provided.  Please contact <a href="mailto:upgrade.vet@gmail.com">upgrade.vet@gmail.com</a> with any questions or issues.</i></p>
+	  </div>
+	</div>
+
+	<h4>Browse Decisions</h4>
+
+	<div class="list-group list-group-root">
+	{% for i in path_tree['children'] %}
+		<a href="#{{ i }}" data-toggle="collapse" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+			{{ i }}<span class="badge badge-primary badge-pill"> {{ path_tree['children'][i]['count'] }}</span>
+		</a>
+		<div id="{{ i }}" class="list-group collapse">
+		{% for j in path_tree['children'][i]['children'] %}
+			<a href="#{{ i }}-{{ j }}" data-toggle="collapse" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+				{{ j }}<span class="badge badge-primary badge-pill"> {{ path_tree['children'][i]['children'][j]['count'] }}</span>
+			</a>
+			<div id="{{ i }}-{{ j }}" class="list-group collapse">
+				{% for k in path_tree['children'][i]['children'][j]['children'] %}
+					<a href="/vetup/browse/{{i}}/{{j}}/{{k}}" class="list-group-item d-flex justify-content-between align-items-center">
+						{{ k }}<span class="badge badge-primary badge-pill">  {{ path_tree['children'][i]['children'][j]['children'][k]['count'] }}</span>
+					</a>
+				{% endfor %}
+			</div>
+		{% endfor %}
+		</div>
+	{% endfor %} 
+	</div>
+	<hr>
+	<h5>Summary Statistics</h5>
+	<div>
+		<table class="table table-hover small">
+			<thead>
+				<tr>
+					<th scope="col">Document type</th>
+					<th scope="col">Available for download</th>
+					<th scope="col">Can search and preview</th>
+					<th scope="col">Has auto-summary</th>
+				</tr>
+			</thead>
+		<tbody>
+			{% for stat in stats | sort(case_sensitive=True) %}
+				<tr>
+					<th scope="row">{{ stat }}</th>
+					<td>{{ "{:,}".format(stats[stat]['doc_count']) }}</td>
+					<td>{{ "{:,}".format(stats[stat]['has_text']['doc_count']) }} {{ stats[stat]['has_text']['percent'] }}</td>
+					<td>{{ "{:,}".format(stats[stat]['has_summary']['doc_count']) }} {{ stats[stat]['has_summary']['percent'] }}</td></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		</table>
+	</div>
+
+</div>
+{% endblock %}

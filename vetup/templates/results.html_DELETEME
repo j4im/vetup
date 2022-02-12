@@ -1,0 +1,26 @@
+{% extends "/base_layout.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<h1>Browse Decisions</h1>
+{#
+	<h4><small>{{ results.hits.total }} RESULTS:</small></h4>
+	<ul class="list-group" id="search-results-list">
+	    {% for result in results.hits.hits %}
+	    {# FIXME: need to find a new way to reference the filename... #}
+	    <li class="list-group-item">
+	        <h5><a href="{% url 'vetup:detail' result.source.filename %}">
+	            {{ result.source.service }} | {{ result.source.board }} | {{ result.source.year }} | {{ result.source.name }}
+	        </a></h5>
+	        {% for highlight in result.highlight.text %}
+	            {{ highlight|safe }}...
+	        {% endfor %}
+	    </li>
+	    {% endfor %}
+	</ul>
+#}
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "/base_layout.html" %}
+
+{% block head %}
+<style>
+	.just-padding {
+	    padding: 15px;
+	}
+	pre {
+		white-space:pre-wrap;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+{% include '/search_bar.html' %}
+	<h4>Decision Text</h4>
+
+	<div class="card">
+		<div class="card-header">
+			<h5>{{ result.source.service }} | {{ result.source.board }} | {{ result.source.time_period }} | {{ result.source.name }} </h5>
+			<div class="d-flex justify-content-between small">
+				<a href="/raw_data/{{ result.source.path }}/{{ result.source.raw_data_filename }}" class="text-secondary">
+					<small><i class="fas fa-file-download"></i> Original file ({{ result.source.raw_data_filename }})</small>
+		        </a>
+				<span>
+					{% if result.source.approved == 'A' %}
+						<span class="text-secondary">Auto-classification:</a>
+						<span class="badge badge-success">Approved</span>
+					{% elif result.source.approved == 'D' %}
+						<span class="text-secondary">Auto-classification:</a>
+						<span class="badge badge-secondary">Denied</span>
+					{% endif %}
+				</span>
+		</div>
+
+		<div class="card-body">
+			<div class="card-text" id="decision-text">{{ result.source.text | safe }}</div>
+		</div>
+	</div>
+
+	{% if more_like %}
+		<div class="pt-3">
+			<h4>Similar Decisions</h4>
+			<ul class="list-group" id="more-like-list">
+			    {% for result in more_like.hits.hits %}
+
+				    <li class="list-group-item">
+				        <p><a href="/vetup/detail/{{ result.source.path }}/{{ result.source.name }}">
+				            {{ result.source.service }} | {{ result.source.board }} | {{ result.source.time_period }} | {{ result.source.name }} 
+						</a></p>
+						<div class="d-flex justify-content-between small">
+							<a href="/raw_data/{{ result.source.path }}/{{ result.source.raw_data_filename }}" class="text-secondary">
+								<i class="fas fa-file-download"></i> Original file ({{ result.source.raw_data_filename }})
+					        </a>
+							<span>
+								{% if result.source.approved == 'A' %}
+									<span class="text-secondary">Auto-classification:</a>
+									<span class="badge badge-success">Approved</span>
+								{% elif result.source.approved == 'D' %}
+									<span class="text-secondary">Auto-classification:</a>
+									<span class="badge badge-secondary">Denied</span>
+								{% endif %}
+							</span>
+						</div>
+						{% if result.highlight %}
+							<p>
+					        {% for highlight in result.highlight.text %}
+					            {{ highlight|safe }}...
+					        {% endfor %}
+							</p>
+						{% elif result.source.summary  %}
+							<p>
+								{{ result.source.summary|truncate(500) }}
+							</p>
+						{% endif %}
+				    </li>
+			    {% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+</div>
+{% endblock %}

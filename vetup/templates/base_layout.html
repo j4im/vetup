@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" type="text/css" href="/vendor/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="/vendor/css/bootstrap-select.min.css"/>
+		<link rel="stylesheet" type="text/css" href="/vendor/css/bootstrap-datepicker3.min.css"/>
+		
+		<!-- Font Awesome icons -->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+
+		<link rel="stylesheet" type="text/css" href="/css/vetup.css"/>
+
+		<title>{% block title %}Upgrade.Vet{% endblock %}</title>        
+		<meta name="description" content="">
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-156502318-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'UA-156502318-1');
+		</script>
+
+
+		{% block head %}{% endblock %}
+	</head>
+	<body>
+
+		<!-- As a link -->
+		<nav class="navbar navbar-light bg-light">
+		  <a class="navbar-brand" href="{{ url_for('home') }}">Upgrade.Vet</a>
+		</nav>
+		{% block content %}{% endblock %}		
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+		<script src="/vendor/js/bootstrap.min.js"></script>
+		<script src="/vendor/js/bootstrap-select.js"></script>
+		<script src="/vendor/js/bootstrap-datepicker.min.js"></script>
+
+		<script src="/js/vetup.js"></script>
+		{% block script %}{% endblock %}
+
+	    <!--<footer class="footer">
+	      <div class="container">
+	        <span class="text-muted text-right float-right small"><a href="mailto:upgrade.vet@gmail.com">upgrade.vet@gmail.com</a></span>
+	      </div>
+	    </footer>-->
+	</body>
+</html>

@@ -1,0 +1,62 @@
+
+<div class="formContainer">
+	<h4>Search Decisions</h4>
+	<form action="/vetup/search" class="searchForm" method="GET">
+		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+		<div class="form-row"><div class="col">
+			<div class="form-group">
+				<div class="input-group">
+					<input type="text" class="form-control" id="searchField" name="q" 
+						{% if sp is defined and sp.query %}
+							 value = "{{ sp.query }}"
+						{% else %}
+							placeholder="Search for..."
+						{% endif %}
+					>
+					<span class="input-group-btn">
+						<button type="submit" class="btn btn-primary">Search</button>
+					</span>
+				</div>
+			</div>
+		</div></div>
+		<div class="form-row">
+			<div class="col-6 col-md-3">
+				<div class="form-group">
+					<select class="selectpicker form-control form-control-sm" multiple title="Filter service(s)" name="services" data-actions-box="true">
+						{% for value in sp.SERVICES %}
+							<option {% if sp is defined and value in sp.services %}selected{% endif %}>{{ value }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<div class="col-6 col-md-3">
+				<div class="form-group">
+					<select class="selectpicker form-control form-control-sm" multiple title="Filter board(s)" name="boards" data-actions-box="true">
+					  <option value="DRB" {% if sp is defined and "DRB" in sp.boards %}selected{% endif %}>DRB</option>
+					  <option value="BCMR" {% if sp is defined and "BCMR" in sp.boards %}selected{% endif %}>BCMR (Navy BCNR)</option>
+					  <option value="PDBR" {% if sp is defined and "PDBR" in sp.boards %}selected{% endif %}>PDBR (AF only)</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-6 col-md-3">
+				<div class="form-group">
+					<select class="selectpicker form-control form-control-sm" id="years" data-range-select="true" multiple title="Filter year(s)" name="years" data-actions-box="true">
+						{% for year in range(sp.MIN_YEAR, sp.MAX_YEAR + 1) %}
+							<option {% if sp is defined and year in sp.years %}selected{% endif %}>{{ year }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<div class="col-6 col-md-3">
+				<div class="form-group">
+					<select class="selectpicker form-control form-control-sm" multiple title="Filter approval" name="approved" data-actions-box="true">
+						<option value="A" {% if sp is defined and "A" in sp.approved %}selected{% endif %}>Approved</option>
+						<option value="D" {% if sp is defined and "D" in sp.approved %}selected{% endif %}>Denied</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+

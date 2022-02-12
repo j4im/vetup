@@ -1,0 +1,18 @@
+{% extends "/base_layout.html" %}
+
+{% block content %}
+<div class="container just-padding">
+	<h4>Status</h4>
+
+	{% for msg in msgs %}
+		{% if msg.typ == msg.TYPE.H1 %}
+			<h5>{{ msg.msg }}</h5>
+		{% elif msg.typ == msg.TYPE.H2 %}
+			<h5>{{ msg.msg }}</h6>
+		{% else %}
+			<pre><code class="{{ msg.level.html }}"> {{ msg.msg }} </pre></code>
+		{% endif %}
+	{% endfor %}
+
+</div>
+{% endblock %}
